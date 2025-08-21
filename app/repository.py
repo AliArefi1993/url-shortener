@@ -1,7 +1,7 @@
 import secrets
-from app.models import URL
 import string
 
+from app.models import URL
 
 ALPHABET = string.ascii_letters + string.digits
 MAX_LENGTH = 5

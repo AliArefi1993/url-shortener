@@ -1,8 +1,10 @@
 import os
+
 import pytest
 from fastapi.testclient import TestClient
-from main import app
 from pymongo import MongoClient
+
+from main import app
 
 
 @pytest.fixture

@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import RedirectResponse
-from app.schemas import URLRequest, URLResponse
+
 from app.models import URL
 from app.repository import generate_short
+from app.schemas import URLRequest, URLResponse
 
 router = APIRouter()
 

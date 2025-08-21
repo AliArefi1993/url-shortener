@@ -1,12 +1,13 @@
-from fastapi import FastAPI
-from app.apis import router
-from app.models import URL
-from beanie import init_beanie
-from motor.motor_asyncio import AsyncIOMotorClient
-
-from dotenv import load_dotenv
 import os
 from contextlib import asynccontextmanager
+
+from beanie import init_beanie
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from motor.motor_asyncio import AsyncIOMotorClient
+
+from app.apis import router
+from app.models import URL
 
 load_dotenv()
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/url_shortener")
