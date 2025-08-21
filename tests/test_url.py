@@ -22,3 +22,8 @@ class TestURLShortener:
         resp2 = client.post("/shorten/", json={"url": "https://google.com"})
 
         assert resp1.json()["short_url"] == resp2.json()["short_url"]
+
+    def test_redirect_not_found(self, client):
+        response = client.get("/abcde", follow_redirects=False)
+        assert response.status_code == 404
+        assert response.json()["detail"] == "Short URL not found."
