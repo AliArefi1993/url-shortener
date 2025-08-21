@@ -68,6 +68,7 @@ A simple URL shortener service built with Python. This project provides RESTful 
 ## API Endpoints
 - `POST /shorten` - Shorten a URL
 - `GET /{short_url}` - Redirect to original URL
+- `GET /doc` - Interactive API documentation (Swagger UI)
 
 ## Testing
 Run all tests:
