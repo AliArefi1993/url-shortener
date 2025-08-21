@@ -8,3 +8,4 @@ class URL(Document):
 
     class Settings:
         name = "urls"
+        indexes = [[("short", 1), ("url", 1)]]
