@@ -6,9 +6,6 @@ __pycache__/
 *.env
 .env*
 
-# Poetry
-poetry.lock
-
 # VS Code
 .vscode/
 
