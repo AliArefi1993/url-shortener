@@ -1,0 +1,25 @@
+from fastapi import FastAPI
+from app.apis import router
+from app.models import URL
+from beanie import init_beanie
+from motor.motor_asyncio import AsyncIOMotorClient
+
+from dotenv import load_dotenv
+import os
+from contextlib import asynccontextmanager
+
+load_dotenv()
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/url_shortener")
+MONGO_DB = os.getenv("MONGO_DB", "url_shortener")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    client = AsyncIOMotorClient(MONGO_URI)
+    db = client[MONGO_DB]
+    await init_beanie(database=db, document_models=[URL])
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+app.include_router(router)

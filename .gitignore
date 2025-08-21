@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.env*
+
+# Poetry
+poetry.lock
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+
+# Test & Coverage
+.coverage
+htmlcov/
+*.cover
+
+# Pre-commit
+.pre-commit-config.yaml
+.pre-commit-cache/
+
+# Misc
+*.sqlite3
+*.db
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore build
+build/
+dist/
+*.egg-info/
+
+# Ignore MongoDB data
+mongo_data/
