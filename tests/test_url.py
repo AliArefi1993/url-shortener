@@ -1,3 +1,6 @@
+from app.schemas import SHORT_URL_LEN
+
+
 class TestURLShortener:
     def test_shorten_rate_limit(self, client):
         # Exceed the 5/minute limit
@@ -26,13 +29,13 @@ class TestURLShortener:
         response = client.get("/abcdef")
         assert response.status_code == 400
         detail = response.json()["detail"]
-        assert detail == "Short URL must be exactly 5 characters."
+        assert detail == f"Short URL must be exactly {SHORT_URL_LEN} characters."
 
     def test_shorten_and_redirect(self, client):
         response = client.post("/shorten", json={"url": "https://example.com"})
         assert response.status_code == 200
         short_url = response.json()["short_url"]
-        assert len(short_url) == 5
+        assert len(short_url) == SHORT_URL_LEN
 
         response = client.get(f"/{short_url}", follow_redirects=False)
         assert response.status_code == 307

@@ -6,16 +6,15 @@ from fastapi import HTTPException
 from pydantic import HttpUrl
 
 from app.models import URL
-from app.schemas import URLRequest, URLResponse
+from app.schemas import SHORT_URL_LEN, URLRequest, URLResponse
 
 ALPHABET = string.ascii_letters + string.digits
-MAX_LENGTH = 5
 
 
 async def generate_short() -> str:
     """Generate unique short code."""
     while True:
-        code = "".join(secrets.choice(ALPHABET) for _ in range(MAX_LENGTH))
+        code = "".join(secrets.choice(ALPHABET) for _ in range(SHORT_URL_LEN))
         if not await URL.find_one(URL.short == code):
             return code
 
@@ -37,9 +36,10 @@ async def get_short_url(short: str) -> HttpUrl:
     Retrieve the original URL for a given short code.
     Raises HTTPException(404) if not found.
     """
-    if len(short) != 5:
+    if len(short) != SHORT_URL_LEN:
         raise HTTPException(
-            status_code=400, detail="Short URL must be exactly 5 characters."
+            status_code=400,
+            detail=f"Short URL must be exactly {SHORT_URL_LEN} characters.",
         )
     url_doc = await URL.find_one(URL.short == short)
     if not url_doc:
