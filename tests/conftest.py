@@ -3,6 +3,7 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 from pymongo import MongoClient
+from redis import Redis  # type: ignore
 
 from main import app
 
@@ -27,9 +28,16 @@ def check_test_db():
 def cleanup_test_db():
     """Ensure test DB is cleaned after all tests."""
     yield
-    # At this point, event loop is closed, so use synchronous pymongo
 
     client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
     db = client[os.getenv("MONGO_TEST_DB", "url_shortener_test")]
-    db.urls.delete_many({})  # synchronous cleanup
+    db.urls.delete_many({})
     client.close()
+
+
+@pytest.fixture(autouse=True)
+def clear_redis_rate_limit():
+    r = Redis.from_url(os.getenv("REDIS_URL", "redis://localhost:6379/0"))
+    yield
+    for key in r.scan_iter("LIMITS*"):
+        r.delete(key)
