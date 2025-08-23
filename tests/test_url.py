@@ -1,4 +1,9 @@
 class TestURLShortener:
+    def test_redirect_invalid_length(self, client):
+        response = client.get("/abcdef")
+        assert response.status_code == 400
+        detail = response.json()["detail"]
+        assert detail == "Short URL must be exactly 5 characters."
 
     def test_shorten_and_redirect(self, client):
         response = client.post("/shorten", json={"url": "https://example.com"})
